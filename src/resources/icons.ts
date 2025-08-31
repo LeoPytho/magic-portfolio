@@ -1,5 +1,4 @@
 import { IconType } from "react-icons";
-
 import {
   HiArrowUpRight,
   HiOutlineLink,
@@ -13,7 +12,6 @@ import {
   HiOutlineGlobeAsiaAustralia,
   HiOutlineRocketLaunch,
 } from "react-icons/hi2";
-
 import {
   PiHouseDuotone,
   PiUserCircleDuotone,
@@ -21,15 +19,18 @@ import {
   PiBookBookmarkDuotone,
   PiImageDuotone,
 } from "react-icons/pi";
-
 import {
   SiJavascript,
   SiNextdotjs,
   SiFigma,
   SiSupabase,
+  SiExpress,
+  SiNodedotjs,
+  SiPostgresql,
+  SiReact,
+  SiDiscord,
 } from "react-icons/si";
-
-import { FaDiscord, FaGithub, FaLinkedin, FaX, FaThreads } from "react-icons/fa6";
+import { FaGithub, FaLinkedin, FaX, FaThreads } from "react-icons/fa6";
 
 export const iconLibrary: Record<string, IconType> = {
   arrowUpRight: HiArrowUpRight,
@@ -43,7 +44,7 @@ export const iconLibrary: Record<string, IconType> = {
   calendar: HiCalendarDays,
   home: PiHouseDuotone,
   gallery: PiImageDuotone,
-  discord: FaDiscord,
+  discord: SiDiscord,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,
   github: FaGithub,
@@ -57,6 +58,10 @@ export const iconLibrary: Record<string, IconType> = {
   nextjs: SiNextdotjs,
   supabase: SiSupabase,
   figma: SiFigma,
+  express: SiExpress,
+  nodejs: SiNodedotjs,
+  postgresql: SiPostgresql,
+  react: SiReact,
 };
 
 export type IconLibrary = typeof iconLibrary;
