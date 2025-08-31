@@ -1,0 +1,302 @@
+---
+title: "Using @jkt48/core Module in Your Projects"
+summary: "Complete guide on using the @jkt48/core NPM module for seamless JKT48Connect API integration in JavaScript and Node.js applications."
+image: "/images/gallery/horizontal-3.jpg"
+publishedAt: "2025-04-21"
+tag: "JKT48Connect"
+---
+
+## Introduction to @jkt48/core Module
+The `@jkt48/core` module is an official NPM package that provides a simplified wrapper for JKT48Connect API, making it easier to integrate JKT48 data into your JavaScript and Node.js applications. This module handles authentication, error management, and provides a clean interface for all available endpoints.
+
+## Installation
+Install the module using npm or yarn:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `# Using npm
+npm install @jkt48/core
+
+# Using yarn  
+yarn add @jkt48/core
+
+# Using pnpm
+pnpm add @jkt48/core`,
+    language: "bash",
+    label: "Package Installation"
+  }
+]} />
+
+## Basic Usage Examples
+
+### CommonJS Implementation
+For traditional Node.js projects using CommonJS modules:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const jkt48Api = require('@jkt48/core');
+
+// Example: Get all JKT48 members
+async function getMembers() {
+  try {
+    const apiKey = 'your-api-key-here';
+    const members = await jkt48Api.members(apiKey);
+    console.log('Total members:', members.length);
+    console.log('Members data:', members);
+  } catch (error) {
+    console.error('Error fetching members:', error.message);
+  }
+}
+
+// Example: Get JKT48 news
+async function getNews() {
+  try {
+    const apiKey = 'your-api-key-here';
+    const news = await jkt48Api.news(apiKey, { page: 1, perpage: 5 });
+    console.log('Latest news:', news);
+  } catch (error) {
+    console.error('Error fetching news:', error.message);
+  }
+}
+
+getMembers();
+getNews();`,
+    language: "javascript",
+    label: "CommonJS Example"
+  }
+]} />
+
+### ES Modules (ESM) Implementation
+For modern JavaScript projects using ES modules:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `import jkt48Api from '@jkt48/core';
+
+// Example: Get all JKT48 members
+async function getMembers() {
+  try {
+    const apiKey = 'your-api-key-here';
+    const members = await jkt48Api.members(apiKey);
+    console.log('Total members:', members.length);
+    console.log('Members data:', members);
+  } catch (error) {
+    console.error('Error fetching members:', error.message);
+  }
+}
+
+// Example: Get theater schedule
+async function getTheaterSchedule() {
+  try {
+    const apiKey = 'your-api-key-here';
+    const schedule = await jkt48Api.theater.schedule(apiKey);
+    console.log('Theater schedule:', schedule);
+  } catch (error) {
+    console.error('Error fetching schedule:', error.message);
+  }
+}
+
+getMembers();
+getTheaterSchedule();`,
+    language: "javascript",
+    label: "ES Modules Example"
+  }
+]} />
+
+## Advanced Usage with Priority Token
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `import jkt48Api from '@jkt48/core';
+
+// Configure with priority token for enhanced access
+const config = {
+  priorityToken: 'P-ABCD1234',
+  baseURL: 'https://v2.jkt48connect.my.id'
+};
+
+async function getEnhancedData() {
+  try {
+    // Using priority token for higher rate limits
+    const members = await jkt48Api.members(null, config);
+    const news = await jkt48Api.news(null, { ...config, page: 1, perpage: 10 });
+    const events = await jkt48Api.events(null, config);
+    
+    console.log('Enhanced data access:', {
+      membersCount: members.length,
+      newsCount: news.length,
+      eventsCount: events.length
+    });
+    
+  } catch (error) {
+    console.error('Error with priority access:', error.message);
+  }
+}
+
+getEnhancedData();`,
+    language: "javascript",
+    label: "Priority Token Usage"
+  }
+]} />
+
+## Available Methods
+The `@jkt48/core` module provides access to all JKT48Connect API endpoints:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `// Member-related methods
+await jkt48Api.members(apiKey);                    // Get all members
+await jkt48Api.member.profile(apiKey, memberId);   // Get specific member
+await jkt48Api.member.birthday(apiKey);            // Get birthday info
+
+// News and announcements
+await jkt48Api.news(apiKey, options);              // Get news
+await jkt48Api.announcements(apiKey);              // Get announcements
+
+// Theater and events
+await jkt48Api.theater.schedule(apiKey);           // Theater schedule
+await jkt48Api.theater.setlist(apiKey);            // Current setlist
+await jkt48Api.events(apiKey);                     // Upcoming events
+
+// Social media integration
+await jkt48Api.social.recent(apiKey);              // Recent posts
+await jkt48Api.social.instagram(apiKey, memberId); // Member Instagram
+
+// Live streaming
+await jkt48Api.live.status(apiKey);                // Live status
+await jkt48Api.live.schedule(apiKey);              // Live schedule`,
+    language: "javascript",
+    label: "Available API Methods"
+  }
+]} />
+
+## Error Handling Best Practices
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `import jkt48Api from '@jkt48/core';
+
+async function robustApiCall() {
+  const apiKey = 'your-api-key-here';
+  
+  try {
+    // Implement retry logic for better reliability
+    const maxRetries = 3;
+    let attempt = 0;
+    
+    while (attempt < maxRetries) {
+      try {
+        const members = await jkt48Api.members(apiKey);
+        return members; // Success
+      } catch (error) {
+        attempt++;
+        
+        if (attempt === maxRetries) {
+          throw error; // Final attempt failed
+        }
+        
+        // Wait before retry (exponential backoff)
+        await new Promise(resolve => 
+          setTimeout(resolve, Math.pow(2, attempt) * 1000)
+        );
+      }
+    }
+  } catch (error) {
+    // Handle different error types
+    if (error.status === 429) {
+      console.error('Rate limit exceeded. Please try again later.');
+    } else if (error.status === 401) {
+      console.error('Invalid API key. Please check your credentials.');
+    } else if (error.status === 500) {
+      console.error('Server error. Please try again later.');
+    } else {
+      console.error('Unexpected error:', error.message);
+    }
+    
+    throw error;
+  }
+}`,
+    language: "javascript",
+    label: "Error Handling Example"
+  }
+]} />
+
+## React Integration Example
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `import React, { useState, useEffect } from 'react';
+import jkt48Api from '@jkt48/core';
+
+function JKT48MemberList() {
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchMembers() {
+      try {
+        const apiKey = process.env.REACT_APP_JKT48_API_KEY;
+        const memberData = await jkt48Api.members(apiKey);
+        setMembers(memberData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMembers();
+  }, []);
+
+  if (loading) return <div>Loading JKT48 members...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div>
+      <h2>JKT48 Members ({members.length})</h2>
+      <ul>
+        {members.map(member => (
+          <li key={member.id}>
+            {member.name} - {member.generation}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default JKT48MemberList;`,
+    language: "javascript",
+    label: "React Component Example"
+  }
+]} />
+
+## Getting API Access
+- **Standard API Key**: Contact Valzy via WhatsApp: **+62 851-8902-0193**
+- **Priority Token**: Apply through verification form for enhanced features
+- **Documentation**: Visit [docs.jkt48connect.com](https://docs.jkt48connect.com) for complete API reference
+
+## Benefits of Using @jkt48/core
+- **Simplified Integration**: No need to handle HTTP requests manually
+- **Built-in Error Handling**: Comprehensive error management
+- **TypeScript Support**: Full type definitions included
+- **Automatic Retries**: Built-in retry logic for failed requests
+- **Rate Limiting**: Intelligent rate limiting to prevent API abuse
+- **Caching**: Optional response caching for better performance
+
+Start building powerful JKT48 applications with the simplified `@jkt48/core` module today!
