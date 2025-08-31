@@ -69,7 +69,7 @@ const home: Home = {
     <span 
       style={{ 
         fontWeight: "600", 
-        color: "#FF6B9D",
+        color: "#FFFFFF",
         display: "inline-flex",
         alignItems: "center"
       }}
