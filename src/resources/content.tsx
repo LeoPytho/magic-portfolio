@@ -64,17 +64,22 @@ const home: Home = {
     href: "/work/building-once-ui-a-customizable-design-system",
   },
   subline: (
-    <>
-      I'm Valzyy, a developer at{" "}
-      <Logo
-        dark
-        icon="/trademarks/wordmark-dark.svg"
-        style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}
-      />
-      , where I craft intuitive
-      <br /> user experiences. After hours, I build my own projects.
-    </>
-  ),
+  <>
+    I'm Valzyy, a developer at{" "}
+    <span 
+      style={{ 
+        fontWeight: "600", 
+        color: "#FF6B9D",
+        display: "inline-flex",
+        alignItems: "center"
+      }}
+    >
+      JKT48Connect
+    </span>
+    , where I craft intuitive
+    <br /> user experiences. After hours, I build my own projects.
+  </>
+),
 };
 
 const about: About = {
