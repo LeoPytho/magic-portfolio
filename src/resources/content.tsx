@@ -472,6 +472,8 @@ images: [
     alt: "Gelombang Cinta Fest photo",
     orientation: "vertical",
   }
-];
+ ],
+  }, // Add this comma here
+};
 
 export { person, social, newsletter, home, about, blog, work, gallery };
