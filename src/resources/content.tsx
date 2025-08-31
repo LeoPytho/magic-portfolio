@@ -263,7 +263,7 @@ const about: About = {
         images: [],
       },
     ],
-  }, // This closing brace was missing!
+  },
 };
 
 const blog: Blog = {
@@ -291,189 +291,188 @@ const gallery: Gallery = {
   description: `A photo collection by ${person.name}`,
   // Images by https://lorant.one
   // These are placeholder images, replace with your own
-images: [
-  {
-    src: "/images/gallery/5bed01ae-159d-4167-85c5-ccffefabe486.jpeg",
-    alt: "JKT48 member photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/Lily JKT48 (2).jpeg",
-    alt: "Lily JKT48 photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/Lily JKT48 (1).jpeg",
-    alt: "Lily JKT48 photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/Lily JKT48.jpeg",
-    alt: "Lily JKT48 photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/Fritzy JKT48.jpeg",
-    alt: "Fritzy JKT48 photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/Lily JKT48 (3).jpeg",
-    alt: "Lily JKT48 photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/GykOyqEaIAAPCwQ.jpg",
-    alt: "JKT48 event photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/GykOypfbYAATs4Y.jpg",
-    alt: "JKT48 event photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/GykWIwVaMAABSd0.jpg",
-    alt: "JKT48 event photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/Gyk4zA2boAAdrj-.jpg",
-    alt: "JKT48 event photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_4.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_3.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_1.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_10.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_8.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_9.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_7.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_6.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_5.jpg",
-    alt: "D'Academy concert photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/20250806_061755.jpg",
-    alt: "JKT48 event photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/20250806_061751.jpg",
-    alt: "JKT48 event photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/d550049e371ae80151176cc641d8c101.jpg",
-    alt: "JKT48 member photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_Kimmy W Friends_250808_1.jpg",
-    alt: "Kimmy event photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_8.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_6.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_7.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_5.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_Kimmy Picts by Wotagraphers📸_250724_2.jpg",
-    alt: "Kimmy photo by wotagraphers",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_4.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_Kimmy Picts by Wotagraphers📸_250724_1.jpg",
-    alt: "Kimmy photo by wotagraphers",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_20.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_19.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_18.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_17.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "vertical",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_15.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "horizontal",
-  },
-  {
-    src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_16.jpg",
-    alt: "Gelombang Cinta Fest photo",
-    orientation: "vertical",
-  }
- ],
-  }, // Add this comma here
+  images: [
+    {
+      src: "/images/gallery/5bed01ae-159d-4167-85c5-ccffefabe486.jpeg",
+      alt: "JKT48 member photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/Lily JKT48 (2).jpeg",
+      alt: "Lily JKT48 photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/Lily JKT48 (1).jpeg",
+      alt: "Lily JKT48 photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/Lily JKT48.jpeg",
+      alt: "Lily JKT48 photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/Fritzy JKT48.jpeg",
+      alt: "Fritzy JKT48 photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/Lily JKT48 (3).jpeg",
+      alt: "Lily JKT48 photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/GykOyqEaIAAPCwQ.jpg",
+      alt: "JKT48 event photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/GykOypfbYAATs4Y.jpg",
+      alt: "JKT48 event photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/GykWIwVaMAABSd0.jpg",
+      alt: "JKT48 event photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/Gyk4zA2boAAdrj-.jpg",
+      alt: "JKT48 event photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_4.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_3.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_1.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_10.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_8.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_9.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_7.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_6.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at D'Academy 7 Konser Kemerdekaan 17.08.25_250817_5.jpg",
+      alt: "D'Academy concert photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/20250806_061755.jpg",
+      alt: "JKT48 event photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/20250806_061751.jpg",
+      alt: "JKT48 event photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/d550049e371ae80151176cc641d8c101.jpg",
+      alt: "JKT48 member photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_Kimmy W Friends_250808_1.jpg",
+      alt: "Kimmy event photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_8.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_6.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_7.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_5.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_Kimmy Picts by Wotagraphers📸_250724_2.jpg",
+      alt: "Kimmy photo by wotagraphers",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_4.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_Kimmy Picts by Wotagraphers📸_250724_1.jpg",
+      alt: "Kimmy photo by wotagraphers",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_20.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_19.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_18.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_17.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_15.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/LINE_ALBUM_at Gelombang Cinta Fest, Pekalongan, 04.07.25_250724_16.jpg",
+      alt: "Gelombang Cinta Fest photo",
+      orientation: "vertical",
+    },
+  ],
 };
 
 export { person, social, newsletter, home, about, blog, work, gallery };
