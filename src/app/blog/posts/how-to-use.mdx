@@ -1,0 +1,206 @@
+---
+title: "How to Use JKT48Connect API in Your Projects"
+summary: "Complete guide on integrating JKT48Connect REST API into your applications, including authentication, code examples, and best practices."
+image: "/images/gallery/horizontal-2.jpg"
+publishedAt: "2025-04-22"
+tag: "JKT48Connect"
+---
+
+## Getting Started with JKT48Connect API
+JKT48Connect provides a comprehensive REST API with 21+ endpoints for accessing JKT48 data. This guide will show you how to integrate the API into your projects with practical examples.
+
+## Authentication Methods
+JKT48Connect supports two authentication methods depending on your access level:
+
+### Standard API Key
+For general developers and personal projects:
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code:
+`const API_KEY = 'YOUR_API_KEY';
+const BASE_URL = 'https://v2.jkt48connect.my.id';
+
+// Use API key in query parameter
+const response = await fetch(
+  \`\${BASE_URL}/api/jkt48/news?apikey=\${API_KEY}&page=1&perpage=10\`
+);`,
+    language: "javascript",
+    label: "Standard API Key Usage"
+  }
+]} />
+
+### Priority Token Access
+For verified communities, official fanbases, and verified developers:
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code:
+`// Method 1: Via Header (Recommended)
+const response = await fetch(url, {
+  headers: {
+    'x-priority-token': 'P-ABCD1234'
+  }
+});
+
+// Method 2: Via Query Parameter
+const url = \`\${BASE_URL}/api/endpoint?priority_token=P-ABCD1234\`;
+
+// Method 3: Via Request Body (POST requests)
+const response = await fetch(url, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ 
+    priority_token: 'P-ABCD1234',
+    // other data...
+  })
+});`,
+    language: "javascript",
+    label: "Priority Token Authentication"
+  }
+]} />
+
+## Feature Example: JKT48 News API
+Here's a complete implementation for fetching and processing JKT48 news:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code:
+`const API_KEY = 'YOUR_API_KEY';
+const BASE_URL = 'https://v2.jkt48connect.my.id';
+
+async function getJKT48News(page = 1, perpage = 10) {
+  try {
+    const response = await fetch(
+      \`\${BASE_URL}/api/jkt48/news?apikey=\${API_KEY}&page=\${page}&perpage=\${perpage}\`
+    );
+    
+    if (!response.ok) {
+      throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch JKT48 news:', error);
+    throw error;
+  }
+}`,
+    language: "javascript",
+    label: "Basic News Fetching Function"
+  }
+]} />
+
+### News Categorization and Processing
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code:
+`// Categorize news by icon labels
+function categorizeNews(news) {
+  const categories = {
+    'cat1': 'Member Updates',
+    'cat2': 'Events & Concerts', 
+    'cat3': 'General Announcements',
+    'cat4': 'Merchandise',
+    'cat5': 'Special Events',
+    'cat8': 'Member Status'
+  };
+  
+  return news.map(article => {
+    const iconMatch = article.label.match(/icon\.cat(\\d+)\.png/);
+    const categoryKey = iconMatch ? \`cat\${iconMatch[1]}\` : 'cat3';
+    
+    return {
+      ...article,
+      category: categories[categoryKey] || 'General',
+      categoryIcon: article.label,
+      isRecent: isRecentNews(article.date)
+    };
+  });
+}
+
+// Check if news is recent (within last 7 days)
+function isRecentNews(dateStr) {
+  const newsDate = new Date(dateStr);
+  const now = new Date();
+  const diffTime = Math.abs(now - newsDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays <= 7;
+}`,
+    language: "javascript",
+    label: "News Processing Functions"
+  }
+]} />
+
+### Complete Usage Example
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code:
+`// Usage example
+async function displayNewsUpdate() {
+  try {
+    const data = await getJKT48News();
+    const { news, page, total_count } = data;
+    
+    console.log(\`=== JKT48 NEWS UPDATE (Page \${page}) ===\`);
+    console.log(\`Total articles: \${total_count}\`);
+    
+    const categorizedNews = categorizeNews(news);
+    const recentNews = categorizedNews.filter(article => article.isRecent);
+    
+    if (recentNews.length > 0) {
+      console.log('\\n🔥 RECENT NEWS (Last 7 days):');
+      recentNews.forEach(article => {
+        const formatted = formatNewsArticle(article);
+        console.log(\`📰 \${formatted.title}\`);
+        console.log(\`   Category: \${formatted.category} | \${formatted.publishDate}\`);
+      });
+    }
+    
+  } catch (error) {
+    console.error('Error displaying news:', error);
+  }
+}
+
+// Run the example
+displayNewsUpdate();`,
+    language: "javascript",
+    label: "Complete Implementation Example"
+  }
+]} />
+
+## Other Available Features
+JKT48Connect provides 21+ API endpoints including:
+
+- **Member Information**: Live status, profiles, birthday tracking
+- **Theater Schedules**: Show times, seat availability, setlists  
+- **Event Management**: Concerts, handshake events, special shows
+- **Social Media Integration**: Recent posts and updates
+- **Real-time Notifications**: Live streaming status, announcements
+- **And much more...**
+
+## Complete Documentation
+For comprehensive documentation covering all 21+ API endpoints, detailed examples, and advanced usage patterns, visit:
+
+**[docs.jkt48connect.com](https://docs.jkt48connect.com)**
+
+## Getting Access
+- **Standard API Key**: Contact Valzy via WhatsApp: **+62 851-8902-0193**
+- **Priority Token**: Apply through the verification form for enhanced access and higher rate limits
+
+## Best Practices
+1. **Handle errors gracefully** with try-catch blocks
+2. **Implement rate limiting** to avoid exceeding API quotas
+3. **Cache responses** when appropriate to improve performance
+4. **Use priority tokens** for production applications requiring higher reliability
+5. **Check the documentation** regularly for updates and new features
+
+Start building amazing JKT48 applications today with JKT48Connect API!
