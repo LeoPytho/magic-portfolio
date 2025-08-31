@@ -173,96 +173,98 @@ const about: About = {
   },
   technical: {
     display: true, // set to false to hide this section
-title: "Technical skills",
-skills: [
- {
-   title: "Next.js",
-   description: (
-     <>Building next gen apps with Next.js + Once UI + Supabase.</>
-   ),
-   tags: [
-     {
-       name: "JavaScript",
-       icon: "javascript",
-     },
-     {
-       name: "Next.js",
-       icon: "nextjs",
-     },
-     {
-       name: "Supabase",
-       icon: "supabase",
-     },
-   ],
-   images: [
-     {
-       src: "/images/projects/project-01/cover-04.jpg",
-       alt: "Project image",
-       width: 16,
-       height: 9,
-     },
-   ],
- },
- {
-   title: "Express.js + PostgreSQL",
-   description: (
-     <>Building robust REST API for JKT48Connect with Express.js and PostgreSQL database.</>
-   ),
-   tags: [
-     {
-       name: "Express.js",
-       icon: "express",
-     },
-     {
-       name: "PostgreSQL",
-       icon: "postgresql",
-     },
-     {
-       name: "Node.js",
-       icon: "nodejs",
-     },
-   ],
-   images: [],
- },
- {
-   title: "React",
-   description: (
-     <>Developing JKT48Connect website to display comprehensive JKT48 data and information.</>
-   ),
-   tags: [
-     {
-       name: "React",
-       icon: "react",
-     },
-     {
-       name: "JavaScript",
-       icon: "javascript",
-     },
-   ],
-   images: [],
- },
- {
-   title: "JavaScript & Node.js",
-   description: (
-     <>Creating Discord bot and WhatsApp bot for JKT48Connect automation and fan engagement.</>
-   ),
-   tags: [
-     {
-       name: "JavaScript",
-       icon: "javascript",
-     },
-     {
-       name: "Node.js",
-       icon: "nodejs",
-     },
-     {
-       name: "Discord.js",
-       icon: "discord",
-     },
-   ],
-   images: [],
- },
-],
+    title: "Technical skills",
+    skills: [
+      {
+        title: "Next.js",
+        description: (
+          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+        ),
+        tags: [
+          {
+            name: "JavaScript",
+            icon: "javascript",
+          },
+          {
+            name: "Next.js",
+            icon: "nextjs",
+          },
+          {
+            name: "Supabase",
+            icon: "supabase",
+          },
+        ],
+        images: [
+          {
+            src: "/images/projects/project-01/cover-04.jpg",
+            alt: "Project image",
+            width: 16,
+            height: 9,
+          },
+        ],
+      },
+      {
+        title: "Express.js + PostgreSQL",
+        description: (
+          <>Building robust REST API for JKT48Connect with Express.js and PostgreSQL database.</>
+        ),
+        tags: [
+          {
+            name: "Express.js",
+            icon: "express",
+          },
+          {
+            name: "PostgreSQL",
+            icon: "postgresql",
+          },
+          {
+            name: "Node.js",
+            icon: "nodejs",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "React",
+        description: (
+          <>Developing JKT48Connect website to display comprehensive JKT48 data and information.</>
+        ),
+        tags: [
+          {
+            name: "React",
+            icon: "react",
+          },
+          {
+            name: "JavaScript",
+            icon: "javascript",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "JavaScript & Node.js",
+        description: (
+          <>Creating Discord bot and WhatsApp bot for JKT48Connect automation and fan engagement.</>
+        ),
+        tags: [
+          {
+            name: "JavaScript",
+            icon: "javascript",
+          },
+          {
+            name: "Node.js",
+            icon: "nodejs",
+          },
+          {
+            name: "Discord.js",
+            icon: "discord",
+          },
+        ],
+        images: [],
+      },
+    ],
+  }, // This closing brace was missing!
+};
 
 const blog: Blog = {
   path: "/blog",
