@@ -2,20 +2,20 @@ import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/
 import { Line, Logo, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
-  firstName: "Selene",
-  lastName: "Yu",
-  name: `Selene Yu`,
-  role: "Design Engineer",
+  firstName: "Valzy",
+  lastName: "Nathaniel",
+  name: `Valzy Nathaniel`,
+  role: "Fullstack Developer",
   avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
+  email: "valzyy95@gmail.com",
   location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  languages: ["English", "Indonesia"], // optional: Leave the array empty if you don't want to display languages
 };
 
 const newsletter: Newsletter = {
   display: true,
   title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: <>My weekly newsletter about creativity and engineering</>,
+  description: <>My weekly newsletter about creativity and JKT48Connect</>,
 };
 
 const social: Social = [
@@ -24,17 +24,17 @@ const social: Social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system",
+    link: "https://github.com/JKT48Connect",
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "",
   },
   {
     name: "Threads",
     icon: "threads",
-    link: "https://www.threads.com/@once_ui",
+    link: "https://www.threads.com/@valzy._",
   },
   {
     name: "Email",
@@ -54,7 +54,7 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
+        <strong className="ml-4">JKT48Connect</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
@@ -65,7 +65,7 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Selene, a design engineer at{" "}
+      I'm Valzyy, a developer at{" "}
       <Logo
         dark
         icon="/trademarks/wordmark-dark.svg"
@@ -98,52 +98,59 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Valzy is a Jakarta-based fullstack developer and the creative mind behind JKT48Connect. 
+        With a passion for transforming complex challenges into simple, elegant solutions, her work 
+        spans from backend architecture to frontend interfaces, creating seamless digital experiences 
+        that bridge the gap between fans and their favorite idols. Her expertise in both design and 
+        development allows her to craft comprehensive platforms that prioritize user experience while 
+        maintaining robust technical foundations.
       </>
     ),
-  },
+   },
   work: {
     display: true, // set to false to hide this section
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
-        achievements: [
-          <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
-          </>,
-          <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
-          </>,
-        ],
+       company: "JKT48Connect",
+       timeframe: "2023 - Present",
+       role: "Owner & Founder & Developer",
+       achievements: [
+        <>
+          Created JKT48Connect, a comprehensive REST API system that enables developers and JKT48 
+          fan communities to easily integrate JKT48 features into their websites and projects 
+          without complex implementation.
+        </>,
+        <>
+          Developed and maintains multiple API endpoints including live member status, member 
+          birthdays, news updates, theater schedules, show events, and other essential features, 
+          serving hundreds of developers and fan communities across Indonesia.
+        </>,
+       ],
         images: [
           // optional: leave the array empty if you don't want to display images
           {
             src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
+            alt: "Docs JKT48Connect",
             width: 16,
             height: 9,
           },
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Nayrakuen",
+        timeframe: "2025 August - Present",
+        role: "IT Admin",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Served as Backend IT Administrator at Nayrakuen, developing and maintaining server 
+            infrastructure and database systems that improved website performance and reliability 
+            by 40%.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+          Led backend development initiatives and system optimizations at Nayrakuen, implementing 
+          scalable solutions that enhanced user experience and contributed to increased platform 
+          engagement and operational efficiency.
           </>,
         ],
         images: [],
@@ -151,7 +158,7 @@ const about: About = {
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
+    display: false, // set to false to hide this section
     title: "Studies",
     institutions: [
       {
@@ -166,67 +173,96 @@ const about: About = {
   },
   technical: {
     display: true, // set to false to hide this section
-    title: "Technical skills",
-    skills: [
-      {
-        title: "Figma",
-        description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
-        ),
-        tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
-      },
-      {
-        title: "Next.js",
-        description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
-        ),
-        tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
-      },  
-    ],
-  },
-};
+title: "Technical skills",
+skills: [
+ {
+   title: "Next.js",
+   description: (
+     <>Building next gen apps with Next.js + Once UI + Supabase.</>
+   ),
+   tags: [
+     {
+       name: "JavaScript",
+       icon: "javascript",
+     },
+     {
+       name: "Next.js",
+       icon: "nextjs",
+     },
+     {
+       name: "Supabase",
+       icon: "supabase",
+     },
+   ],
+   images: [
+     {
+       src: "/images/projects/project-01/cover-04.jpg",
+       alt: "Project image",
+       width: 16,
+       height: 9,
+     },
+   ],
+ },
+ {
+   title: "Express.js + PostgreSQL",
+   description: (
+     <>Building robust REST API for JKT48Connect with Express.js and PostgreSQL database.</>
+   ),
+   tags: [
+     {
+       name: "Express.js",
+       icon: "express",
+     },
+     {
+       name: "PostgreSQL",
+       icon: "postgresql",
+     },
+     {
+       name: "Node.js",
+       icon: "nodejs",
+     },
+   ],
+   images: [],
+ },
+ {
+   title: "React",
+   description: (
+     <>Developing JKT48Connect website to display comprehensive JKT48 data and information.</>
+   ),
+   tags: [
+     {
+       name: "React",
+       icon: "react",
+     },
+     {
+       name: "JavaScript",
+       icon: "javascript",
+     },
+   ],
+   images: [],
+ },
+ {
+   title: "JavaScript & Node.js",
+   description: (
+     <>Creating Discord bot and WhatsApp bot for JKT48Connect automation and fan engagement.</>
+   ),
+   tags: [
+     {
+       name: "JavaScript",
+       icon: "javascript",
+     },
+     {
+       name: "Node.js",
+       icon: "nodejs",
+     },
+     {
+       name: "Discord.js",
+       icon: "discord",
+     },
+   ],
+   images: [],
+ },
+],
 
 const blog: Blog = {
   path: "/blog",
