@@ -1,0 +1,1046 @@
+---
+title: "Nayrakuen Merch Admin API Documentation"
+summary: "Complete guide for managing customers, payments, and QRIS email system for nayrakuen with comprehensive endpoint documentation and examples."
+publishedAt: "2025-09-03"
+tag: "API Documentation"
+---
+
+## Overview
+
+The Nayrakuen Merch Admin API provides a comprehensive customer management system with automated email notifications and QRIS payment integration for VALZSTORE. This system handles customer registration, payment status tracking, redeem code management, and automated email confirmations.
+
+## Base URL and Authentication
+
+**Production API:** `https://v2.jkt48connect.com/api/nayrakuen/`
+
+All endpoints require authentication using these parameters:
+- **username**: `vzy`
+- **password**: `vzy`
+
+Authentication can be sent via query string (GET/DELETE methods) or request body (POST/PUT methods).
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `// Query string authentication (GET/DELETE)
+const response = await fetch(
+  'https://v2.jkt48connect.com/api/nayrakuen/admin/pembeli?username=vzy&password=vzy'
+);
+
+// Request body authentication (POST/PUT)
+const response = await fetch(
+  'https://v2.jkt48connect.com/api/nayrakuen/admin/customer-input',
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: 'vzy',
+      password: 'vzy',
+      nama: 'John Doe',
+      email: 'john@example.com',
+      // other parameters...
+    })
+  }
+);`,
+    language: "javascript",
+    label: "Authentication Methods"
+  }
+]} />
+
+## Database Schema
+
+The system uses PostgreSQL with the following table structures:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `-- Customer table
+CREATE TABLE pembeli (
+  id SERIAL PRIMARY KEY,
+  customer_id VARCHAR(50) UNIQUE,
+  phone VARCHAR(20),
+  name VARCHAR(255),
+  address TEXT,
+  email VARCHAR(255),
+  product VARCHAR(255),
+  harga DECIMAL(15,2),
+  member VARCHAR(10) DEFAULT 'no',
+  status VARCHAR(20) DEFAULT 'belum bayar',
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Redeem codes table
+CREATE TABLE redeem_codes (
+  id SERIAL PRIMARY KEY,
+  code VARCHAR(20) UNIQUE,
+  email VARCHAR(255),
+  discount_type VARCHAR(20) DEFAULT 'nominal',
+  discount_value DECIMAL(15,2) DEFAULT 0,
+  discount_percentage DECIMAL(5,2) DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  is_used BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT NOW()
+);`,
+    language: "sql",
+    label: "Database Schema"
+  }
+]} />
+
+## Customer Management
+
+### Add New Customer
+
+Register a new customer with automatic QRIS generation and email confirmation.
+
+**Endpoint:** `POST /admin/customer-input`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const addCustomer = async (customerData) => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/admin/customer-input',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'vzy',
+          password: 'vzy',
+          nama: customerData.name,
+          alamat: customerData.address,
+          nomor_hp: customerData.phone,
+          email: customerData.email,
+          harga: customerData.price,
+          product: customerData.product || 'Produk Default',
+          member: customerData.member || 'no'
+        })
+      }
+    );
+    
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error adding customer:', error);
+    throw error;
+  }
+};
+
+// Usage example
+const newCustomer = await addCustomer({
+  name: 'John Doe',
+  address: 'Jl. Example No. 123',
+  phone: '08123456789',
+  email: 'john@example.com',
+  price: 100000,
+  product: 'Premium Package'
+});`,
+    language: "javascript",
+    label: "Add Customer Implementation"
+  }
+]} />
+
+**Response Structure:**
+```json
+{
+  "status": true,
+  "message": "Data pembeli berhasil disimpan dan email konfirmasi telah dikirim",
+  "data": {
+    "customer_id": "CUST-A1B2C3D4",
+    "nama": "John Doe",
+    "alamat": "Jl. Example No. 123",
+    "nomor_hp": "08123456789",
+    "email": "john@example.com",
+    "product": "Produk Default",
+    "member": "no",
+    "price_details": {
+      "basePrice": 100000,
+      "ongkir": 25000,
+      "fee": 250,
+      "total": 125250
+    },
+    "status": "belum bayar",
+    "created_at": "2024-01-01T10:00:00.000Z",
+    "qris_generated": true,
+    "email_sent": true
+  }
+}
+```
+
+### Get All Customer Data
+
+Retrieve all customer records from the database.
+
+**Endpoint:** `GET /admin/pembeli`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const getAllCustomers = async () => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/admin/pembeli?username=vzy&password=vzy'
+    );
+    
+    const result = await response.json();
+    
+    if (result.status) {
+      console.log(\`Found \${result.count} customers\`);
+      return result.data;
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (error) {
+    console.error('Error fetching customers:', error);
+    throw error;
+  }
+};
+
+// Process customer data
+const customers = await getAllCustomers();
+const paidCustomers = customers.filter(customer => customer.status === 'lunas');
+const unpaidCustomers = customers.filter(customer => customer.status === 'belum bayar');
+
+console.log(\`Paid customers: \${paidCustomers.length}\`);
+console.log(\`Unpaid customers: \${unpaidCustomers.length}\`);`,
+    language: "javascript",
+    label: "Get All Customers"
+  }
+]} />
+
+### Delete Customer Data
+
+Remove customer records based on search criteria.
+
+**Endpoint:** `DELETE /admin/delete-customer`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const deleteCustomer = async (searchCriteria) => {
+  try {
+    const params = new URLSearchParams({
+      username: 'vzy',
+      password: 'vzy',
+      ...searchCriteria
+    });
+    
+    const response = await fetch(
+      \`https://v2.jkt48connect.com/api/nayrakuen/admin/delete-customer?\${params}\`,
+      { method: 'DELETE' }
+    );
+    
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error deleting customer:', error);
+    throw error;
+  }
+};
+
+// Delete by email
+await deleteCustomer({ email: 'john@example.com' });
+
+// Delete by name (partial match)
+await deleteCustomer({ nama: 'John' });
+
+// Delete by price
+await deleteCustomer({ harga: '125250' });`,
+    language: "javascript",
+    label: "Delete Customer"
+  }
+]} />
+
+## Payment Status Management
+
+### Enhanced Status Update with Email
+
+Update payment status with automatic email notifications when status becomes "lunas" (paid).
+
+**Endpoint:** `PUT /admin/edit-status`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const updatePaymentStatus = async (searchCriteria, newStatus = 'lunas', sendEmail = true) => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/admin/edit-status',
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'vzy',
+          password: 'vzy',
+          status: newStatus,
+          send_email: sendEmail.toString(),
+          ...searchCriteria
+        })
+      }
+    );
+    
+    const result = await response.json();
+    
+    if (result.status && result.email_sent) {
+      console.log('Payment confirmed and customer notified via email');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error updating status:', error);
+    throw error;
+  }
+};
+
+// Confirm payment by email
+await updatePaymentStatus({ email: 'john@example.com' });
+
+// Confirm payment by name without email
+await updatePaymentStatus({ nama: 'John Doe' }, 'lunas', false);
+
+// Update to different status
+await updatePaymentStatus({ email: 'john@example.com' }, 'pending');`,
+    language: "javascript",
+    label: "Payment Status Update"
+  }
+]} />
+
+### Simple Status Update without Email
+
+Update payment status without sending email notifications.
+
+**Endpoint:** `PUT /admin/edit-status-simple`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const updateStatusSimple = async (searchCriteria, status = 'lunas') => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/admin/edit-status-simple',
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'vzy',
+          password: 'vzy',
+          status: status,
+          ...searchCriteria
+        })
+      }
+    );
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating status:', error);
+    throw error;
+  }
+};`,
+    language: "javascript",
+    label: "Simple Status Update"
+  }
+]} />
+
+## Price Management
+
+### Reduce Customer Price
+
+Apply discounts or price reductions to customer orders.
+
+**Endpoint:** `PUT /admin/kurangi-harga`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const reducePrice = async (identifier, reductionAmount) => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/admin/kurangi-harga',
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'vzy',
+          password: 'vzy',
+          jumlah_kurang: reductionAmount,
+          ...identifier
+        })
+      }
+    );
+    
+    const result = await response.json();
+    
+    if (result.status) {
+      console.log(\`Price reduced from \${result.data.harga_sebelum} to \${result.data.harga_sesudah}\`);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error reducing price:', error);
+    throw error;
+  }
+};
+
+// Reduce price by email
+await reducePrice({ email: 'john@example.com' }, 25000);
+
+// Reduce price by name
+await reducePrice({ nama: 'John Doe' }, 10000);`,
+    language: "javascript",
+    label: "Price Reduction"
+  }
+]} />
+
+### Search by Price
+
+Search customers based on price criteria with various operators.
+
+**Endpoint:** `GET /admin/cari-harga`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const searchByPrice = async (priceOptions) => {
+  try {
+    const params = new URLSearchParams({
+      username: 'vzy',
+      password: 'vzy',
+      ...priceOptions
+    });
+    
+    const response = await fetch(
+      \`https://v2.jkt48connect.com/api/nayrakuen/admin/cari-harga?\${params}\`
+    );
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error searching by price:', error);
+    throw error;
+  }
+};
+
+// Search exact price
+const exactPrice = await searchByPrice({ harga: 100000 });
+
+// Search price greater than value
+const higherPrices = await searchByPrice({ 
+  harga: 50000, 
+  operator: 'greater' 
+});
+
+// Search price range
+const priceRange = await searchByPrice({ 
+  harga_min: 100000, 
+  harga_max: 200000 
+});
+
+// Available operators: equal, greater, less, greater_equal, less_equal`,
+    language: "javascript",
+    label: "Price Search"
+  }
+]} />
+
+## Redeem Code Management
+
+### Create Redeem Code
+
+Generate new redeem codes for specific customers with discount values.
+
+**Endpoint:** `POST /admin/buat-redeem`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const createRedeemCode = async (redeemData) => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/admin/buat-redeem',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'vzy',
+          password: 'vzy',
+          email: redeemData.email,
+          code: redeemData.customCode, // optional
+          discount_type: redeemData.discountType || 'nominal',
+          discount_value: redeemData.discountValue || 0,
+          discount_percentage: redeemData.discountPercentage || 0
+        })
+      }
+    );
+    
+    const result = await response.json();
+    
+    if (result.status) {
+      console.log(\`Redeem code created: \${result.data.code}\`);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error creating redeem code:', error);
+    throw error;
+  }
+};
+
+// Create nominal discount redeem code
+await createRedeemCode({
+  email: 'customer@example.com',
+  discountType: 'nominal',
+  discountValue: 50000
+});
+
+// Create percentage discount redeem code
+await createRedeemCode({
+  email: 'vip@example.com',
+  discountType: 'percentage',
+  discountPercentage: 15
+});
+
+// Create custom redeem code
+await createRedeemCode({
+  email: 'special@example.com',
+  customCode: 'SPECIAL2024',
+  discountType: 'nominal',
+  discountValue: 100000
+});`,
+    language: "javascript",
+    label: "Create Redeem Code"
+  }
+]} />
+
+### List All Redeem Codes
+
+Retrieve all redeem codes in the system.
+
+**Endpoint:** `GET /admin/lihat-redeem`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const getAllRedeemCodes = async () => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/admin/lihat-redeem?username=vzy&password=vzy'
+    );
+    
+    const result = await response.json();
+    
+    if (result.status) {
+      console.log(\`Found \${result.count} redeem codes\`);
+      
+      // Categorize codes
+      const activeCodes = result.data.filter(code => code.is_active && !code.is_used);
+      const usedCodes = result.data.filter(code => code.is_used);
+      const inactiveCodes = result.data.filter(code => !code.is_active);
+      
+      console.log(\`Active: \${activeCodes.length}, Used: \${usedCodes.length}, Inactive: \${inactiveCodes.length}\`);
+      
+      return {
+        all: result.data,
+        active: activeCodes,
+        used: usedCodes,
+        inactive: inactiveCodes
+      };
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error fetching redeem codes:', error);
+    throw error;
+  }
+};
+
+const redeemCodes = await getAllRedeemCodes();`,
+    language: "javascript",
+    label: "List Redeem Codes"
+  }
+]} />
+
+### Delete Redeem Code
+
+Remove redeem codes from the system.
+
+**Endpoint:** `DELETE /admin/hapus-redeem/:code` or `GET /admin/hapus-redeem?code=XXXXX`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const deleteRedeemCode = async (code) => {
+  try {
+    // Method 1: Path parameter
+    const response1 = await fetch(
+      \`https://v2.jkt48connect.com/api/nayrakuen/admin/hapus-redeem/\${code}?username=vzy&password=vzy\`,
+      { method: 'DELETE' }
+    );
+    
+    // Method 2: Query parameter
+    const response2 = await fetch(
+      \`https://v2.jkt48connect.com/api/nayrakuen/admin/hapus-redeem?code=\${code}&username=vzy&password=vzy\`,
+      { method: 'DELETE' }
+    );
+    
+    return await response1.json(); // Use either response
+  } catch (error) {
+    console.error('Error deleting redeem code:', error);
+    throw error;
+  }
+};
+
+// Delete specific redeem code
+await deleteRedeemCode('A1B2C3D4E5');`,
+    language: "javascript",
+    label: "Delete Redeem Code"
+  }
+]} />
+
+## QRIS Payment Integration
+
+### Manual QRIS Generation
+
+Generate QRIS codes for specific payment amounts with optional fees.
+
+**Endpoint:** `GET /admin/generate-qris`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const generateQRIS = async (qrisOptions) => {
+  try {
+    const params = new URLSearchParams({
+      username: 'vzy',
+      password: 'vzy',
+      amount: qrisOptions.amount,
+      includeFee: qrisOptions.includeFee || false,
+      feeType: qrisOptions.feeType || 'rupiah',
+      fee: qrisOptions.fee || '0'
+    });
+    
+    const response = await fetch(
+      \`https://v2.jkt48connect.com/api/nayrakuen/admin/generate-qris?\${params}\`
+    );
+    
+    const result = await response.json();
+    
+    if (result.status) {
+      console.log(\`QRIS generated for amount: \${result.data.amount}\`);
+      console.log(\`QR Image URL: \${result.data.qrImageUrl}\`);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error generating QRIS:', error);
+    throw error;
+  }
+};
+
+// Generate simple QRIS
+const basicQRIS = await generateQRIS({ amount: 100000 });
+
+// Generate QRIS with fixed fee
+const withFeeQRIS = await generateQRIS({
+  amount: 150000,
+  includeFee: true,
+  feeType: 'rupiah',
+  fee: '2500'
+});
+
+// Generate QRIS with percentage fee
+const percentageFeeQRIS = await generateQRIS({
+  amount: 200000,
+  includeFee: true,
+  feeType: 'percentage',
+  fee: '2.5'
+});`,
+    language: "javascript",
+    label: "QRIS Generation"
+  }
+]} />
+
+## Email Services
+
+### Manual Success Email
+
+Send payment confirmation emails manually.
+
+**Endpoint:** `POST /admin/send-success-email`
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `const sendSuccessEmail = async (customerInfo) => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/admin/send-success-email',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'vzy',
+          password: 'vzy',
+          customer_id: customerInfo.customerId,
+          nama: customerInfo.name,
+          email: customerInfo.email,
+          harga: customerInfo.amount
+        })
+      }
+    );
+    
+    const result = await response.json();
+    
+    if (result.status) {
+      console.log(\`Success email sent to \${customerInfo.email}\`);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error sending success email:', error);
+    throw error;
+  }
+};
+
+// Send manual success email
+await sendSuccessEmail({
+  customerId: 'CUST-A1B2C3D4',
+  name: 'John Doe',
+  email: 'john@example.com',
+  amount: 125250
+});`,
+    language: "javascript",
+    label: "Manual Email Sending"
+  }
+]} />
+
+## Complete Workflow Implementation
+
+Here's a complete workflow implementation showing how to use multiple endpoints together:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `class NayraluenMerchAPI {
+  constructor() {
+    this.baseURL = 'https://v2.jkt48connect.com/api/nayrakuen';
+    this.auth = { username: 'vzy', password: 'vzy' };
+  }
+  
+  async registerCustomer(customerData) {
+    // Step 1: Register new customer
+    const customer = await this.addCustomer(customerData);
+    console.log(\`Customer registered: \${customer.data.customer_id}\`);
+    
+    // Step 2: Generate QRIS if needed
+    if (!customer.data.qris_generated) {
+      const qris = await this.generateQRIS({ 
+        amount: customer.data.price_details.total 
+      });
+      console.log('QRIS generated manually');
+    }
+    
+    return customer;
+  }
+  
+  async processPayment(customerEmail) {
+    // Step 1: Confirm payment status
+    const statusUpdate = await this.updatePaymentStatus(
+      { email: customerEmail }, 
+      'lunas'
+    );
+    
+    if (statusUpdate.status) {
+      console.log('Payment confirmed and customer notified');
+      
+      // Step 2: Create reward redeem code for loyal customers
+      await this.createRedeemCode({
+        email: customerEmail,
+        discountType: 'nominal',
+        discountValue: 25000
+      });
+      
+      console.log('Loyalty redeem code created');
+    }
+    
+    return statusUpdate;
+  }
+  
+  async applyDiscount(customerEmail, discountAmount) {
+    // Step 1: Reduce customer price
+    const priceReduction = await this.reducePrice(
+      { email: customerEmail }, 
+      discountAmount
+    );
+    
+    if (priceReduction.status) {
+      // Step 2: Generate new QRIS with updated amount
+      const newQRIS = await this.generateQRIS({ 
+        amount: priceReduction.data.harga_sesudah 
+      });
+      
+      // Step 3: Send updated payment details
+      console.log(\`Discount applied. New amount: \${priceReduction.data.harga_sesudah}\`);
+      
+      return {
+        priceReduction,
+        newQRIS
+      };
+    }
+    
+    return priceReduction;
+  }
+  
+  async getDashboardData() {
+    // Get comprehensive dashboard data
+    const [customers, redeemCodes] = await Promise.all([
+      this.getAllCustomers(),
+      this.getAllRedeemCodes()
+    ]);
+    
+    // Calculate statistics
+    const stats = {
+      totalCustomers: customers.length,
+      paidCustomers: customers.filter(c => c.status === 'lunas').length,
+      unpaidCustomers: customers.filter(c => c.status === 'belum bayar').length,
+      totalRevenue: customers
+        .filter(c => c.status === 'lunas')
+        .reduce((sum, c) => sum + parseFloat(c.harga), 0),
+      activeRedeemCodes: redeemCodes.filter(r => r.is_active && !r.is_used).length,
+      usedRedeemCodes: redeemCodes.filter(r => r.is_used).length
+    };
+    
+    return { customers, redeemCodes, stats };
+  }
+  
+  // Individual method implementations would go here...
+  // (addCustomer, updatePaymentStatus, etc.)
+}
+
+// Usage example
+const api = new NayraluenMerchAPI();
+
+// Complete customer flow
+async function handleNewOrder() {
+  try {
+    // Register customer
+    const customer = await api.registerCustomer({
+      name: 'Jane Smith',
+      address: 'Jl. Commerce St. 456',
+      phone: '08987654321',
+      email: 'jane@example.com',
+      price: 150000,
+      product: 'Premium Merchandise'
+    });
+    
+    // Simulate payment confirmation after customer pays
+    setTimeout(async () => {
+      await api.processPayment('jane@example.com');
+    }, 300000); // 5 minutes later
+    
+    // Get dashboard update
+    const dashboard = await api.getDashboardData();
+    console.log('Dashboard stats:', dashboard.stats);
+    
+  } catch (error) {
+    console.error('Order processing error:', error);
+  }
+}
+
+handleNewOrder();`,
+    language: "javascript",
+    label: "Complete Workflow Implementation"
+  }
+]} />
+
+## Error Handling
+
+All API responses follow a consistent format. Here's how to handle errors properly:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `class APIError extends Error {
+  constructor(message, status, response) {
+    super(message);
+    this.name = 'APIError';
+    this.status = status;
+    this.response = response;
+  }
+}
+
+const handleAPIResponse = async (response) => {
+  const data = await response.json();
+  
+  if (!response.ok) {
+    throw new APIError(
+      data.message || 'API request failed',
+      response.status,
+      data
+    );
+  }
+  
+  if (!data.status) {
+    throw new APIError(data.message || 'Operation failed', 400, data);
+  }
+  
+  return data;
+};
+
+// Usage with error handling
+const safeAPICall = async (apiFunction) => {
+  try {
+    return await apiFunction();
+  } catch (error) {
+    if (error instanceof APIError) {
+      console.error(\`API Error (\${error.status}): \${error.message}\`);
+      
+      // Handle specific error cases
+      switch (error.status) {
+        case 401:
+          console.error('Authentication failed. Check username/password.');
+          break;
+        case 404:
+          console.error('Data not found.');
+          break;
+        case 400:
+          console.error('Invalid request parameters.');
+          break;
+        default:
+          console.error('Unexpected error occurred.');
+      }
+    } else {
+      console.error('Network or unexpected error:', error);
+    }
+    
+    throw error;
+  }
+};`,
+    language: "javascript",
+    label: "Error Handling"
+  }
+]} />
+
+## Common Error Responses
+
+**Authentication Error (401):**
+```json
+{
+  "status": false,
+  "message": "Username atau password salah"
+}
+```
+
+**Validation Error (400):**
+```json
+{
+  "status": false,
+  "message": "Parameter wajib tidak boleh kosong"
+}
+```
+
+**Not Found Error (404):**
+```json
+{
+  "status": false,
+  "message": "Data tidak ditemukan"
+}
+```
+
+**Conflict Error (409):**
+```json
+{
+  "status": false,
+  "message": "Email sudah terdaftar dalam database"
+}
+```
+
+## Dependencies and Setup
+
+Required Node.js dependencies for implementing this API:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `{
+  "dependencies": {
+    "express": "^4.x.x",
+    "nodemailer": "^6.x.x",
+    "pg": "^8.x.x",
+    "crypto": "built-in",
+    "node-fetch": "^3.x.x"
+  }
+}`,
+    language: "json",
+    label: "Package Dependencies"
+  }
+]} />
+
+Configuration file structure:
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code: `// config.js
+module.exports = {
+  api: {
+    baseURL: 'https://v2.jkt48connect.com/api/nayrakuen',
+    username: 'vzy',
+    password: 'vzy'
+  },
+  smtp: {
+    user: 'your-email@zoho.com',
+    password: 'your-app-password',
+    host: 'smtp.zoho.com',
+    port: 587,
+    secure: false
+  },
+  database: {
+    host: 'localhost',
+    port: 5432,
+    database: 'nayraluen_db',
+    user: 'db_user',
+    password: 'db_password'
+  }
+};`,
+    language: "javascript",
+    label: "Configuration Setup"
+  }
+]} />
+
+## Best Practices
+
+1. **Always validate input data** before sending API requests
+2. **Implement proper error handling** for all API calls
+3. **Use environment variables** for sensitive configuration
+4. **Implement retry logic** for network failures
+5. **Cache frequently accessed data** to reduce API calls
+6. **Log API interactions** for debugging and monitoring
+7. **Validate email addresses** before customer registration
+8. **Handle concurrent operations** carefully to avoid data conflicts
+
+## Support and Maintenance
+
+For technical support and API access:
+- **Contact**: Valzy
+- **API Version**: 2.0
+- **Last Updated**: September 2025
+- **Base URL**: `https://v2.jkt48connect.com/api/nayrakuen/`
+
+This comprehensive API provides all necessary functionality for managing a complete e-commerce customer lifecycle with automated email notifications and payment processing through QRIS integration
