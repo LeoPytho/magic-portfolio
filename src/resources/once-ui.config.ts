@@ -13,7 +13,7 @@ import {
 import { home } from "./index";
 
 // IMPORTANT: Replace with your own domain address - it's used for SEO in meta tags and schema
-const baseURL: string = "https://porto.jkt48connect.com";
+const baseURL: string = "https://www.valzyyofc.my.id";
 
 const routes: RoutesConfig = {
   "/": true,
