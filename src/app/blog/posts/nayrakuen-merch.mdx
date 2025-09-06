@@ -739,6 +739,237 @@ await sendSuccessEmail({
   amount: 125250
 });
 ```
+### Search Customer Data (Simple)
+
+Search customers based on name, email, or phone number with pagination support.
+
+**Endpoint:** `GET /cari-data` or `POST /cari-data`
+
+```javascript
+const searchCustomers = async (searchOptions) => {
+  try {
+    const params = new URLSearchParams({
+      username: 'vzy',
+      password: 'vzy',
+      ...searchOptions
+    });
+    
+    const response = await fetch(
+      `https://v2.jkt48connect.com/api/nayrakuen/cari-data?${params}`
+    );
+    
+    const result = await response.json();
+    
+    if (result.status) {
+      console.log(`Found ${result.count} customers on page ${result.pagination.current_page}`);
+      console.log(`Total pages: ${result.pagination.total_pages}`);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error searching customers:', error);
+    throw error;
+  }
+};
+
+// Search by name (partial match)
+const byName = await searchCustomers({ 
+  nama: 'John',
+  limit: 10 
+});
+
+// Search by email (partial match)
+const byEmail = await searchCustomers({ 
+  email: 'gmail.com',
+  limit: 20 
+});
+
+// Search by phone number (partial match)
+const byPhone = await searchCustomers({ 
+  nomor_hp: '0812',
+  offset: 50,
+  limit: 25 
+});
+
+// Multiple criteria (uses OR logic)
+const multiSearch = await searchCustomers({
+  nama: 'John',
+  email: 'example.com',
+  limit: 15
+});
+```
+
+**Response Structure:**
+```json
+{
+  "status": true,
+  "message": "Data berhasil ditemukan",
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 5,
+    "per_page": 10,
+    "total_data": 45,
+    "has_next": true,
+    "has_prev": false
+  },
+  "search_criteria": {
+    "nama": "John",
+    "email": null,
+    "nomor_hp": null
+  },
+  "count": 10,
+  "data": [
+    {
+      "customer_id": "CUST-A1B2C3D4",
+      "nama": "John Doe",
+      "alamat": "Jl. Example No. 123",
+      "nomor_hp": "08123456789",
+      "email": "john@example.com",
+      "product": "Premium Package",
+      "member": "no",
+      "harga": 125250,
+      "status": "lunas",
+      "created_at": "2024-01-01T10:00:00.000Z",
+      "updated_at": "2024-01-01T15:30:00.000Z"
+    }
+  ]
+}
+```
+### Search Customer Data (Advanced)
+
+Advanced search with multiple filters, sorting, and comprehensive statistics.
+
+**Endpoint:** `GET /cari-data-advanced` or `POST /cari-data-advanced`
+
+```javascript
+const searchCustomersAdvanced = async (advancedOptions) => {
+  try {
+    const response = await fetch(
+      'https://v2.jkt48connect.com/api/nayrakuen/cari-data-advanced',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'vzy',
+          password: 'vzy',
+          ...advancedOptions
+        })
+      }
+    );
+    
+    const result = await response.json();
+    
+    if (result.status) {
+      console.log(`Advanced search found ${result.count} customers`);
+      console.log('Statistics:', result.statistics);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error in advanced search:', error);
+    throw error;
+  }
+};
+
+// Search paid customers with high value orders
+const highValuePaid = await searchCustomersAdvanced({
+  status: 'lunas',
+  harga_min: 200000,
+  sort_by: 'harga',
+  sort_order: 'DESC',
+  limit: 20
+});
+
+// Search by date range and member status
+const membersByDate = await searchCustomersAdvanced({
+  member: 'yes',
+  tanggal_dari: '2024-01-01',
+  tanggal_sampai: '2024-12-31',
+  sort_by: 'created_at',
+  sort_order: 'ASC'
+});
+
+// Complex search with multiple criteria
+const complexSearch = await searchCustomersAdvanced({
+  nama: 'John',
+  status: 'belum bayar',
+  harga_min: 50000,
+  harga_max: 300000,
+  sort_by: 'harga',
+  sort_order: 'DESC',
+  limit: 50
+});
+
+// Get all customers sorted by latest first
+const latestCustomers = await searchCustomersAdvanced({
+  sort_by: 'created_at',
+  sort_order: 'DESC',
+  limit: 100
+});
+```
+
+**Advanced Search Parameters:**
+- `nama` - Search by customer name (partial match)
+- `email` - Search by email (partial match)  
+- `nomor_hp` - Search by phone number (partial match)
+- `status` - Filter by payment status (`lunas`, `belum bayar`, etc.)
+- `member` - Filter by membership status (`yes`, `no`, or `all`)
+- `harga_min` - Minimum price filter
+- `harga_max` - Maximum price filter
+- `tanggal_dari` - Start date filter (YYYY-MM-DD)
+- `tanggal_sampai` - End date filter (YYYY-MM-DD)
+- `sort_by` - Column to sort by (`name`, `email`, `phone`, `harga`, `status`, `created_at`, `updated_at`)
+- `sort_order` - Sort direction (`ASC` or `DESC`)
+- `limit` - Results per page (default: 50)
+- `offset` - Pagination offset (default: 0)
+
+**Advanced Search Response:**
+```json
+{
+  "status": true,
+  "message": "Data berhasil ditemukan dengan filter advanced",
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 3,
+    "per_page": 20,
+    "total_data": 58,
+    "has_next": true,
+    "has_prev": false
+  },
+  "search_criteria": {
+    "nama": null,
+    "email": null,
+    "nomor_hp": null,
+    "status": "lunas",
+    "member": null,
+    "harga_range": {
+      "min": 200000,
+      "max": null
+    },
+    "tanggal_range": {
+      "dari": null,
+      "sampai": null
+    },
+    "sort": {
+      "by": "harga",
+      "order": "DESC"
+    }
+  },
+  "statistics": {
+    "total_customers": 58,
+    "lunas_count": 58,
+    "belum_bayar_count": 0,
+    "total_harga": 15420000,
+    "avg_harga": 265862.07,
+    "max_harga": 500000,
+    "min_harga": 200000
+  },
+  "count": 20,
+  "data": [
+    // Customer data array
+  ]
+}
+```
 
 ## Complete Workflow Implementation
 
