@@ -42,7 +42,7 @@ import {
   SiGo,
   SiSqlite,
   SiFirebase,
-  SiAmazonaws,
+  SiAmazon,
   SiGooglecloud,
   SiDocker,
   SiKubernetes,
