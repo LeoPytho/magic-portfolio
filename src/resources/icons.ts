@@ -42,7 +42,7 @@ import {
   SiGo,
   SiSqlite,
   SiFirebase,
-  SiAmazon,
+  SiAmazonaws,
   SiGooglecloud,
   SiDocker,
   SiKubernetes,
@@ -62,9 +62,7 @@ import {
   SiSlack,
   SiJest,
   SiCypress,
-  SiPlaywright,
   SiSelenium,
-  SiSonarqube,
   SiWhatsapp,
   SiTelegram,
   SiPuppeteer,
@@ -94,9 +92,6 @@ import {
   BiLogoSpringBoot,
   BiLogoTailwindCss,
 } from "react-icons/bi";
-import {
-  RiSupabaseFill,
-} from "react-icons/ri";
 
 export const iconLibrary: Record<string, IconType> = {
   // Navigation and UI Icons
@@ -198,9 +193,9 @@ export const iconLibrary: Record<string, IconType> = {
   // Testing & Quality Assurance
   jest: SiJest,
   cypress: SiCypress,
-  playwright: SiPlaywright,
+  playwright: HiOutlineDocument, // Using document icon as placeholder for playwright
   selenium: SiSelenium,
-  sonarqube: SiSonarqube,
+  sonarqube: HiOutlineCog6Tooth, // Using settings icon as placeholder for sonarqube
 
   // Automation & Tools
   puppeteer: SiPuppeteer,
