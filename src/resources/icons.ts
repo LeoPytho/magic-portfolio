@@ -39,7 +39,6 @@ import {
   SiRedis,
   SiPython,
   SiPhp,
-  SiJava,
   SiGo,
   SiSqlite,
   SiFirebase,
@@ -77,6 +76,7 @@ import {
   SiHeroku,
   SiDigitalocean,
   SiCloudflare,
+  SiOpenjdk,
 } from "react-icons/si";
 import { FaGithub, FaLinkedin, FaX, FaThreads } from "react-icons/fa6";
 import { 
@@ -145,7 +145,7 @@ export const iconLibrary: Record<string, IconType> = {
   express: SiExpress,
   python: SiPython,
   php: SiPhp,
-  java: SiJava,
+  java: SiOpenjdk,
   go: SiGo,
   springboot: BiLogoSpringBoot,
 
