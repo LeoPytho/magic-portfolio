@@ -181,39 +181,55 @@ const about: About = {
     title: "Technical skills",
     skills: [
       {
-        title: "Next.js",
+        title: "Frontend Development",
         description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+          <>Building modern, responsive user interfaces with React, Next.js, and TypeScript for optimal user experiences.</>
         ),
         tags: [
           {
-            name: "JavaScript",
-            icon: "javascript",
+            name: "React",
+            icon: "react",
           },
           {
             name: "Next.js",
             icon: "nextjs",
           },
           {
-            name: "Supabase",
-            icon: "supabase",
+            name: "TypeScript",
+            icon: "typescript",
+          },
+          {
+            name: "HTML5",
+            icon: "html5",
+          },
+          {
+            name: "CSS3",
+            icon: "css3",
+          },
+          {
+            name: "Tailwind CSS",
+            icon: "tailwind",
           },
         ],
         images: [
           {
             src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
+            alt: "Frontend project showcase",
             width: 16,
             height: 9,
           },
         ],
       },
       {
-        title: "Express.js + PostgreSQL",
+        title: "Backend Development",
         description: (
-          <>Building robust REST API for JKT48Connect with Express.js and PostgreSQL database.</>
+          <>Developing robust server-side applications and RESTful APIs using Node.js, Express.js, and various database systems.</>
         ),
         tags: [
+          {
+            name: "Node.js",
+            icon: "nodejs",
+          },
           {
             name: "Express.js",
             icon: "express",
@@ -223,46 +239,280 @@ const about: About = {
             icon: "postgresql",
           },
           {
-            name: "Node.js",
-            icon: "nodejs",
+            name: "MongoDB",
+            icon: "mongodb",
+          },
+          {
+            name: "MySQL",
+            icon: "mysql",
+          },
+          {
+            name: "Redis",
+            icon: "redis",
           },
         ],
         images: [],
       },
       {
-        title: "React",
+        title: "Programming Languages",
         description: (
-          <>Developing JKT48Connect website to display comprehensive JKT48 data and information.</>
+          <>Proficient in multiple programming languages for versatile development across different platforms and requirements.</>
         ),
         tags: [
           {
-            name: "React",
+            name: "JavaScript",
+            icon: "javascript",
+          },
+          {
+            name: "TypeScript",
+            icon: "typescript",
+          },
+          {
+            name: "Python",
+            icon: "python",
+          },
+          {
+            name: "PHP",
+            icon: "php",
+          },
+          {
+            name: "Java",
+            icon: "java",
+          },
+          {
+            name: "Go",
+            icon: "go",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "Database & Storage",
+        description: (
+          <>Expert in designing and managing various database systems, from relational to NoSQL, ensuring optimal data storage and retrieval.</>
+        ),
+        tags: [
+          {
+            name: "PostgreSQL",
+            icon: "postgresql",
+          },
+          {
+            name: "MongoDB",
+            icon: "mongodb",
+          },
+          {
+            name: "MySQL",
+            icon: "mysql",
+          },
+          {
+            name: "Redis",
+            icon: "redis",
+          },
+          {
+            name: "SQLite",
+            icon: "sqlite",
+          },
+          {
+            name: "Firebase",
+            icon: "firebase",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "Cloud & DevOps",
+        description: (
+          <>Managing cloud infrastructure and implementing CI/CD pipelines for scalable and reliable application deployment.</>
+        ),
+        tags: [
+          {
+            name: "AWS",
+            icon: "aws",
+          },
+          {
+            name: "Google Cloud",
+            icon: "googlecloud",
+          },
+          {
+            name: "Docker",
+            icon: "docker",
+          },
+          {
+            name: "Kubernetes",
+            icon: "kubernetes",
+          },
+          {
+            name: "GitHub Actions",
+            icon: "github",
+          },
+          {
+            name: "Nginx",
+            icon: "nginx",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "API Development & Integration",
+        description: (
+          <>Creating and integrating RESTful APIs, GraphQL endpoints, and third-party service integrations for seamless data flow.</>
+        ),
+        tags: [
+          {
+            name: "REST API",
+            icon: "api",
+          },
+          {
+            name: "GraphQL",
+            icon: "graphql",
+          },
+          {
+            name: "Postman",
+            icon: "postman",
+          },
+          {
+            name: "Swagger",
+            icon: "swagger",
+          },
+          {
+            name: "WebSocket",
+            icon: "websocket",
+          },
+          {
+            name: "JSON",
+            icon: "json",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "Mobile Development",
+        description: (
+          <>Building cross-platform mobile applications using React Native and Flutter for iOS and Android platforms.</>
+        ),
+        tags: [
+          {
+            name: "React Native",
             icon: "react",
           },
           {
-            name: "JavaScript",
-            icon: "javascript",
+            name: "Flutter",
+            icon: "flutter",
+          },
+          {
+            name: "Dart",
+            icon: "dart",
+          },
+          {
+            name: "Expo",
+            icon: "expo",
+          },
+          {
+            name: "Android",
+            icon: "android",
+          },
+          {
+            name: "iOS",
+            icon: "ios",
           },
         ],
         images: [],
       },
       {
-        title: "JavaScript & Node.js",
+        title: "Version Control & Collaboration",
         description: (
-          <>Creating Discord bot and WhatsApp bot for JKT48Connect automation and fan engagement.</>
+          <>Managing code repositories and collaborating with teams using modern version control systems and project management tools.</>
         ),
         tags: [
           {
-            name: "JavaScript",
-            icon: "javascript",
+            name: "Git",
+            icon: "git",
           },
           {
-            name: "Node.js",
-            icon: "nodejs",
+            name: "GitHub",
+            icon: "github",
           },
+          {
+            name: "GitLab",
+            icon: "gitlab",
+          },
+          {
+            name: "Bitbucket",
+            icon: "bitbucket",
+          },
+          {
+            name: "Jira",
+            icon: "jira",
+          },
+          {
+            name: "Slack",
+            icon: "slack",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "Testing & Quality Assurance",
+        description: (
+          <>Implementing comprehensive testing strategies including unit tests, integration tests, and end-to-end testing for reliable applications.</>
+        ),
+        tags: [
+          {
+            name: "Jest",
+            icon: "jest",
+          },
+          {
+            name: "Cypress",
+            icon: "cypress",
+          },
+          {
+            name: "Playwright",
+            icon: "playwright",
+          },
+          {
+            name: "Selenium",
+            icon: "selenium",
+          },
+          {
+            name: "Postman",
+            icon: "postman",
+          },
+          {
+            name: "SonarQube",
+            icon: "sonarqube",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "Automation & Bots",
+        description: (
+          <>Creating Discord bots and WhatsApp automation systems for JKT48Connect community engagement and service automation.</>
+        ),
+        tags: [
           {
             name: "Discord.js",
             icon: "discord",
+          },
+          {
+            name: "WhatsApp API",
+            icon: "whatsapp",
+          },
+          {
+            name: "Telegram Bot",
+            icon: "telegram",
+          },
+          {
+            name: "Puppeteer",
+            icon: "puppeteer",
+          },
+          {
+            name: "Selenium",
+            icon: "selenium",
+          },
+          {
+            name: "Cron Jobs",
+            icon: "cron",
           },
         ],
         images: [],
