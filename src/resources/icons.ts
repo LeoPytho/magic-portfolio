@@ -42,7 +42,7 @@ import {
   SiGo,
   SiSqlite,
   SiFirebase,
-  SiAmazonaws,
+  SiAmazon,
   SiGooglecloud,
   SiDocker,
   SiKubernetes,
@@ -156,7 +156,7 @@ export const iconLibrary: Record<string, IconType> = {
   prisma: SiPrisma,
 
   // Cloud & DevOps
-  aws: SiAmazonaws,
+  aws: SiAmazon,
   googlecloud: SiGooglecloud,
   docker: SiDocker,
   kubernetes: SiKubernetes,
